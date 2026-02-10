@@ -93,9 +93,6 @@ export function useVGMPlayer() {
 
 
   // UI elapsed timer for display only (not for auto-advance)
-  // UI elapsed timer for display only (not for auto-advance)
-  // Removed as per request to hide remaining time logic
-  /* 
   useEffect(() => {
     if (isPlaying && currentTrack) {
       uiStartRef.current = Date.now()
@@ -103,15 +100,14 @@ export function useVGMPlayer() {
       const id = setInterval(() => {
         const t = ((Date.now() - uiStartRef.current) / 1000) | 0
         const clamped = Math.min(dur, t)
-        setUiElapsed(clamped)
+        setElapsed(clamped)
       }, 250)
       return () => clearInterval(id)
     } else {
-      setUiElapsed(0)
+      setElapsed(0)
       uiStartRef.current = null
     }
   }, [isPlaying, currentTrack])
-  */
 
   // Remove separate effect for nextTrack; nextTrack will set its own ref when called
   // Note: avoid referencing nextTrack in a useEffect before nextTrack is defined
@@ -611,6 +607,7 @@ export function useVGMPlayer() {
     trackList,
     trackInfo,
     frequencyData,
+    elapsed,
     loadZip,
     play,
     pause,

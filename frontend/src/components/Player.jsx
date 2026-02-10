@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import './Player.css'
 
+// Format seconds to MM:SS
+const formatTime = (seconds) => {
+  const mins = Math.floor(seconds / 60)
+  const secs = seconds % 60
+  return `${mins}:${secs.toString().padStart(2, '0')}`
+}
+
 export function Player({
   isPlaying,
   trackInfo,
@@ -9,6 +16,8 @@ export function Player({
   coverImage,
   gameAuthor,
   gameSystem,
+  elapsed,
+  duration,
   onTogglePlayback,
   onNext,
   onPrev,
@@ -16,6 +25,7 @@ export function Player({
   onSelectTrack,
   frequencyData
 }) {
+  const remaining = Math.max(0, duration - elapsed)
   const canvasRef = useRef(null)
   const overlayCanvasRef = useRef(null)
   const [isImageExpanded, setIsImageExpanded] = useState(false)
@@ -107,7 +117,12 @@ export function Player({
               {trackInfo.game && <div className="track-game">{trackInfo.game}</div>}
               {gameSystem && <div className="track-system">{gameSystem}</div>}
               {gameAuthor && <div className="track-author">{gameAuthor}</div>}
-              <div className="track-length">{trackInfo.length}</div>
+              <div className="track-time">
+                <span className="time-elapsed">{formatTime(elapsed)}</span>
+                <span className="time-separator"> / </span>
+                <span className="time-total">{trackInfo.length}</span>
+                <span className="time-remaining">-{formatTime(remaining)}</span>
+              </div>
             </div>
           ) : (
             <div className="track-info">

@@ -251,6 +251,32 @@
   color: var(--text-secondary);
 }
 
+.track-time {
+  font-size: 10px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.time-elapsed {
+  color: var(--accent-cyan);
+}
+
+.time-separator {
+  opacity: 0.5;
+}
+
+.time-total {
+  color: var(--text-secondary);
+}
+
+.time-remaining {
+  color: var(--accent-yellow);
+  margin-left: 8px;
+  opacity: 0.8;
+}
+
 /* Controls */
 .controls {
   display: flex;

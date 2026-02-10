@@ -427,6 +427,8 @@ function App() {
                 coverImage={selectedGame?.coverImage}
                 gameAuthor={selectedGame?.author}
                 gameSystem={selectedGame?.system}
+                elapsed={player.elapsed}
+                duration={player.currentTrack?.length || 0}
                 onTogglePlayback={player.togglePlayback}
                 onNext={player.nextTrack}
                 onPrev={player.prevTrack}
