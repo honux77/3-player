@@ -40,8 +40,9 @@ const setUrlParams = (gameId, trackName) => {
   history.replaceState(null, '', `?${params.toString()}`)
 }
 
-// Favorites localStorage key
+// localStorage keys
 const FAVORITES_KEY = '9player-favorites'
+const FILTER_KEY = '9player-filter'
 
 const loadFavorites = () => {
   try {
@@ -60,6 +61,22 @@ const saveFavorites = (favorites) => {
   }
 }
 
+const loadFilter = () => {
+  try {
+    return localStorage.getItem(FILTER_KEY) === 'favorites'
+  } catch {
+    return false
+  }
+}
+
+const saveFilter = (showFavoritesOnly) => {
+  try {
+    localStorage.setItem(FILTER_KEY, showFavoritesOnly ? 'favorites' : 'all')
+  } catch {
+    // ignore storage errors
+  }
+}
+
 function App() {
   const [screen, setScreen] = useState('loading') // loading, start, select, player
   const [games, setGames] = useState([])
@@ -68,7 +85,7 @@ function App() {
   const [error, setError] = useState(null)
   const [installPrompt, setInstallPrompt] = useState(null)
   const [favorites, setFavorites] = useState(loadFavorites)
-  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(loadFilter)
   const initialHashHandled = useRef(false)
 
   const player = useVGMPlayer()
@@ -84,6 +101,11 @@ function App() {
       return newFavorites
     })
   }, [])
+
+  // Save filter state when it changes
+  useEffect(() => {
+    saveFilter(showFavoritesOnly)
+  }, [showFavoritesOnly])
 
   // Filter and sort games
   const filteredGames = showFavoritesOnly
