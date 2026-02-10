@@ -31,6 +31,26 @@ const setHash = (gameId, trackName) => {
   history.replaceState(null, '', hash)
 }
 
+// Favorites localStorage key
+const FAVORITES_KEY = '9player-favorites'
+
+const loadFavorites = () => {
+  try {
+    const saved = localStorage.getItem(FAVORITES_KEY)
+    return saved ? JSON.parse(saved) : []
+  } catch {
+    return []
+  }
+}
+
+const saveFavorites = (favorites) => {
+  try {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites))
+  } catch {
+    // ignore storage errors
+  }
+}
+
 function App() {
   const [screen, setScreen] = useState('loading') // loading, start, select, player
   const [games, setGames] = useState([])
@@ -38,9 +58,37 @@ function App() {
   const [loadingGame, setLoadingGame] = useState(false)
   const [error, setError] = useState(null)
   const [installPrompt, setInstallPrompt] = useState(null)
+  const [favorites, setFavorites] = useState(loadFavorites)
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
   const initialHashHandled = useRef(false)
 
   const player = useVGMPlayer()
+
+  // Toggle favorite status
+  const toggleFavorite = useCallback((e, gameId) => {
+    e.stopPropagation() // Prevent triggering game selection
+    setFavorites(prev => {
+      const newFavorites = prev.includes(gameId)
+        ? prev.filter(id => id !== gameId)
+        : [...prev, gameId]
+      saveFavorites(newFavorites)
+      return newFavorites
+    })
+  }, [])
+
+  // Filter and sort games
+  const filteredGames = showFavoritesOnly
+    ? games.filter(g => favorites.includes(g.id))
+    : games
+
+  // Sort games with favorites first
+  const sortedGames = [...filteredGames].sort((a, b) => {
+    const aFav = favorites.includes(a.id)
+    const bFav = favorites.includes(b.id)
+    if (aFav && !bFav) return -1
+    if (!aFav && bFav) return 1
+    return 0
+  })
 
   // PWA install prompt
   useEffect(() => {
@@ -268,6 +316,21 @@ function App() {
             <p className="section-title">SELECT YOUR MUSIC</p>
             <div className="section-divider"></div>
 
+            <div className="filter-toggle">
+              <button
+                className={`filter-btn ${!showFavoritesOnly ? 'active' : ''}`}
+                onClick={() => setShowFavoritesOnly(false)}
+              >
+                ALL
+              </button>
+              <button
+                className={`filter-btn ${showFavoritesOnly ? 'active' : ''}`}
+                onClick={() => setShowFavoritesOnly(true)}
+              >
+                ★ FAVORITES
+              </button>
+            </div>
+
             {!player.isReady ? (
               <div className="loading">
                 <p className="loading-text">LOADING ENGINE...</p>
@@ -280,14 +343,26 @@ function App() {
                 <div className="empty-icon">📁</div>
                 <p className="empty-text">NO MUSIC FOUND<br />ADD ZIP FILES TO DIST FOLDER</p>
               </div>
+            ) : sortedGames.length === 0 ? (
+              <div className="empty-state">
+                <div className="empty-icon">★</div>
+                <p className="empty-text">NO FAVORITES YET<br />CLICK ★ ON ALBUMS TO ADD</p>
+              </div>
             ) : (
               <div className="game-grid">
-                {games.map((game) => (
+                {sortedGames.map((game) => (
                   <div
                     key={game.id}
-                    className="game-card"
+                    className={`game-card ${favorites.includes(game.id) ? 'favorite' : ''}`}
                     onClick={() => handleGameSelect(game)}
                   >
+                    <button
+                      className={`favorite-btn ${favorites.includes(game.id) ? 'active' : ''}`}
+                      onClick={(e) => toggleFavorite(e, game.id)}
+                      title={favorites.includes(game.id) ? 'Remove from favorites' : 'Add to favorites'}
+                    >
+                      ★
+                    </button>
                     <div className="game-image">
                       {game.coverImage ? (
                         <img
