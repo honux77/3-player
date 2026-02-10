@@ -3,32 +3,41 @@ import { useVGMPlayer } from './hooks/useVGMPlayer'
 import { Player } from './components/Player'
 import './App.css'
 
-// URL hash utilities
-const encodeHashParam = (str) => encodeURIComponent(str).replace(/%20/g, '+')
-const decodeHashParam = (str) => decodeURIComponent(str.replace(/\+/g, '%20'))
+// URL utilities - supports both query params (for OG tags) and hash (legacy)
+const parseUrlParams = () => {
+  // First check query params (preferred for sharing)
+  const params = new URLSearchParams(window.location.search)
+  const gameId = params.get('game')
+  const trackName = params.get('track')
+  if (gameId) {
+    return { gameId, trackName }
+  }
 
-const parseHash = () => {
-  const hash = window.location.hash.slice(1) // remove #
+  // Fallback to hash for backward compatibility
+  const hash = window.location.hash.slice(1)
   if (!hash) return null
   const slashIndex = hash.indexOf('/')
   if (slashIndex === -1) {
-    return { gameId: decodeHashParam(hash), trackName: null }
+    return { gameId: decodeURIComponent(hash), trackName: null }
   }
   return {
-    gameId: decodeHashParam(hash.slice(0, slashIndex)),
-    trackName: decodeHashParam(hash.slice(slashIndex + 1))
+    gameId: decodeURIComponent(hash.slice(0, slashIndex)),
+    trackName: decodeURIComponent(hash.slice(slashIndex + 1))
   }
 }
 
-const setHash = (gameId, trackName) => {
+const setUrlParams = (gameId, trackName) => {
   if (!gameId) {
     history.replaceState(null, '', window.location.pathname)
     return
   }
-  const hash = trackName
-    ? `#${encodeHashParam(gameId)}/${encodeHashParam(trackName)}`
-    : `#${encodeHashParam(gameId)}`
-  history.replaceState(null, '', hash)
+  // Use query params for better OG tag support
+  const params = new URLSearchParams()
+  params.set('game', gameId)
+  if (trackName) {
+    params.set('track', trackName)
+  }
+  history.replaceState(null, '', `?${params.toString()}`)
 }
 
 // Favorites localStorage key
@@ -132,7 +141,7 @@ function App() {
       .then(data => {
         setGames(data.games)
         // Don't handle hash here - wait for player to be ready
-        if (!parseHash()) {
+        if (!parseUrlParams()) {
           setTimeout(() => setScreen('select'), 500)
         }
       })
@@ -147,7 +156,7 @@ function App() {
   useEffect(() => {
     if (!player.isReady || games.length === 0 || initialHashHandled.current) return
 
-    const hashInfo = parseHash()
+    const hashInfo = parseUrlParams()
     if (hashInfo && hashInfo.gameId) {
       initialHashHandled.current = true
       handleHashNavigation(games, hashInfo)
@@ -179,7 +188,7 @@ function App() {
           player.stop()
           setScreen('select')
           setSelectedGame(null)
-          setHash(null, null)
+          setUrlParams(null, null)
           break
       }
     }
@@ -205,7 +214,7 @@ function App() {
     if (tracks && tracks.length > 0) {
       setTimeout(() => {
         player.play(0, tracks)
-        setHash(game.id, tracks[0].name)
+        setUrlParams(game.id, tracks[0].name)
       }, 100)
     }
   }
@@ -214,7 +223,7 @@ function App() {
   const handleSelectTrack = useCallback((trackIndex) => {
     player.play(trackIndex)
     if (selectedGame && player.trackList[trackIndex]) {
-      setHash(selectedGame.id, player.trackList[trackIndex].name)
+      setUrlParams(selectedGame.id, player.trackList[trackIndex].name)
     }
   }, [player, selectedGame])
 
@@ -222,7 +231,7 @@ function App() {
     player.stop()
     setScreen('select')
     setSelectedGame(null)
-    setHash(null, null) // Clear hash
+    setUrlParams(null, null) // Clear hash
   }
 
   // Update hash when track changes (next/prev)
@@ -230,7 +239,7 @@ function App() {
     if (selectedGame && player.trackList.length > 0 && player.currentTrackIndex >= 0) {
       const currentTrack = player.trackList[player.currentTrackIndex]
       if (currentTrack) {
-        setHash(selectedGame.id, currentTrack.name)
+        setUrlParams(selectedGame.id, currentTrack.name)
       }
     }
   }, [player.currentTrackIndex, player.trackList, selectedGame])

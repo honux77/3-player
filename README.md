@@ -21,11 +21,12 @@
 재생 중인 곡의 URL을 공유하면 해당 곡이 바로 재생됩니다.
 
 ```
-https://9-player.vercel.app/#GameID/TrackName
+https://9-player.vercel.app/?game=GameID&track=TrackName
 ```
 
 - 🔗 버튼으로 현재 곡 URL 복사
 - URL로 접속하면 해당 곡 자동 재생
+- **Dynamic OG Tags** - 공유 시 게임/트랙 정보가 미리보기에 표시됨
 
 ## Keyboard Shortcuts
 
