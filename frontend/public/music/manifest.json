@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-27T05:38:19.100Z",
+  "generatedAt": "2026-02-10T12:39:48.931Z",
   "games": [
     {
       "id": "Daikoukai_Jidai__Sharp_X68000_",
@@ -873,6 +873,73 @@
           "filename": "47 Curse.vgz",
           "name": "Curse",
           "nameJp": "呪"
+        }
+      ]
+    },
+    {
+      "id": "Hinotori___Ho_o_Hen__MSX2_",
+      "zipFile": "Hinotori_-_Ho-o_Hen_(MSX2).zip",
+      "title": "Hinotori: Hō-ō Hen",
+      "titleJp": "火の鳥 鳳凰編",
+      "system": "MSX2",
+      "author": "Yoshinori Sasaki, Motoaki Furukawa, Fumio Miyashita, Iku Mizutani",
+      "coverImage": "covers/Hinotori___Ho_o_Hen__MSX2_.png",
+      "trackCount": 11,
+      "tracks": [
+        {
+          "filename": "01 Title.vgz",
+          "name": "Title",
+          "nameJp": "タイトル"
+        },
+        {
+          "filename": "02 Game Start.vgz",
+          "name": "Game Start",
+          "nameJp": "ゲーム・スタート"
+        },
+        {
+          "filename": "03 Main BGM 1.vgz",
+          "name": "Main BGM 1",
+          "nameJp": "メインBGM1"
+        },
+        {
+          "filename": "04 Boss.vgz",
+          "name": "Boss",
+          "nameJp": "ボス戦"
+        },
+        {
+          "filename": "05 Stage Select.vgz",
+          "name": "Stage Select",
+          "nameJp": "ステージ・セレクト"
+        },
+        {
+          "filename": "06 Main BGM 2.vgz",
+          "name": "Main BGM 2",
+          "nameJp": "メインBGM2"
+        },
+        {
+          "filename": "07 Last Boss.vgz",
+          "name": "Last Boss",
+          "nameJp": "ラストボス戦"
+        },
+        {
+          "filename": "08 Ending.vgz",
+          "name": "Ending",
+          "nameJp": "エンディング"
+        },
+        {
+          "filename": "09 Staff.vgz",
+          "name": "Staff",
+          "nameJp": "スタッフ"
+        },
+        {
+          "filename": "10 Death.vgz",
+          "name": "Death",
+          "nameJp": "死"
+        },
+        {
+          "filename": "11 Game Over.vgz",
+          "name": "Game Over",
+          "nameJp": "ゲーム・オーバー"
         }
       ]
     },
@@ -2015,6 +2082,103 @@
       ]
     },
     {
+      "id": "Nemesis_2__MSX_",
+      "zipFile": "Nemesis_2_(MSX).zip",
+      "title": "Nemesis 2",
+      "titleJp": "グラディウス2",
+      "system": "MSX",
+      "author": "Masahiro Ikariko, Motoaki Furukawa",
+      "coverImage": "covers/Nemesis_2__MSX_.png",
+      "trackCount": 17,
+      "tracks": [
+        {
+          "filename": "01 Above the Horizon (Opening Theme).vgz",
+          "name": "Above the Horizon (Opening Theme)",
+          "nameJp": "ABOVE THE HORIZON（オープニングテーマ）"
+        },
+        {
+          "filename": "02 Starting Point (Start).vgz",
+          "name": "Starting Point (Start)",
+          "nameJp": "STARTING POINT（スタート）"
+        },
+        {
+          "filename": "03 A Journey to the Start (Air Battle Theme).vgz",
+          "name": "A Journey to the Start (Air Battle Theme)",
+          "nameJp": "A JOURNEY TO THE START（空中戦闘のテーマ）"
+        },
+        {
+          "filename": "04 Killer Coast Land (Colossus Planet Theme).vgz",
+          "name": "Killer Coast Land (Colossus Planet Theme)",
+          "nameJp": "KILLER COAST LAND（巨像惑星のテーマ）"
+        },
+        {
+          "filename": "05 A Fighter (Boss).vgz",
+          "name": "A Fighter (Boss)",
+          "nameJp": "A FIGHTER（ボス）"
+        },
+        {
+          "filename": "06 A Planet of Plants (Plant Planet Theme).vgz",
+          "name": "A Planet of Plants (Plant Planet Theme)",
+          "nameJp": "A PLANET OF PLANTS（植物惑星のテーマ）"
+        },
+        {
+          "filename": "07 Red Diamond (Ancient Planet Theme).vgz",
+          "name": "Red Diamond (Ancient Planet Theme)",
+          "nameJp": "RED DIAMOND（古代惑星のテーマ）"
+        },
+        {
+          "filename": "08 Dancing Venus (Floating Continents Theme).vgz",
+          "name": "Dancing Venus (Floating Continents Theme)",
+          "nameJp": "DANCING VENUS（浮遊大陸のテーマ）"
+        },
+        {
+          "filename": "09 Blazed Up (Flame Planet Theme).vgz",
+          "name": "Blazed Up (Flame Planet Theme)",
+          "nameJp": "BLAZED UP（炎の惑星のテーマ）"
+        },
+        {
+          "filename": "10 Frontier Disputes (Life Planet Theme).vgz",
+          "name": "Frontier Disputes (Life Planet Theme)",
+          "nameJp": "FRONTIER DISPUTES（生命惑星のテーマ）"
+        },
+        {
+          "filename": "11 Tears Began Gushing (Space Tricky Area Theme).vgz",
+          "name": "Tears Began Gushing (Space Tricky Area Theme)",
+          "nameJp": "TEARS BEGAN GUSHING（スペース・トリッキー・エリアのテーマ）"
+        },
+        {
+          "filename": "12 Don't Leave Me Alone (Fortress Planet Theme).vgz",
+          "name": "Don't Leave Me Alone (Fortress Planet Theme)",
+          "nameJp": "DON'T LEAVE ME ALONE（要塞惑星のテーマ）"
+        },
+        {
+          "filename": "13 Killer Love (Return Theme).vgz",
+          "name": "Killer Love (Return Theme)",
+          "nameJp": "KILLER LOVE（帰還のテーマ）"
+        },
+        {
+          "filename": "14 Moonspin (Large Battleship Venom Theme).vgz",
+          "name": "Moonspin (Large Battleship Venom Theme)",
+          "nameJp": "MOONSPIN（大型母船ヴェノム艦のテーマ）"
+        },
+        {
+          "filename": "15 Powerful Waves (Boss Battleship Interior - Last Boss).vgz",
+          "name": "Powerful Waves (Boss Battleship Interior / Last Boss)",
+          "nameJp": "POWERFUL WAVES（ボス艦内／最終ボス）"
+        },
+        {
+          "filename": "16 A Dream of Dreamer (Ending Theme).vgz",
+          "name": "A Dream of Dreamer (Ending Theme)",
+          "nameJp": "A DREAM OF DREAMER（エンディングテーマ）"
+        },
+        {
+          "filename": "17 The War is Over (Game Over).vgz",
+          "name": "The War is Over (Game Over)",
+          "nameJp": "THE WAR IS OVER（ゲームオーバー）"
+        }
+      ]
+    },
+    {
       "id": "Princess_Maker_2__PC_",
       "zipFile": "Princess_Maker_2_(PC).zip",
       "title": "Princess Maker 2",
@@ -2507,6 +2671,93 @@
           "filename": "31 - Hidden Palace Zone.vgz",
           "name": "Unused (Sound Test 10)",
           "nameJp": ""
+        }
+      ]
+    },
+    {
+      "id": "The_Maze_of_Galious__MSX_",
+      "zipFile": "The_Maze_of_Galious_(MSX).zip",
+      "title": "The Maze of Galious",
+      "titleJp": "魔城伝説Ⅱ ガリウスの迷宮",
+      "system": "MSX",
+      "author": "Kazuhiko Uehara, Kinuyo Yamashita",
+      "coverImage": "covers/The_Maze_of_Galious__MSX_.png",
+      "trackCount": 15,
+      "tracks": [
+        {
+          "filename": "01 Prologue.vgz",
+          "name": "Prologue",
+          "nameJp": "プロローグ"
+        },
+        {
+          "filename": "02 Game Start.vgz",
+          "name": "Game Start",
+          "nameJp": "ゲームスタート"
+        },
+        {
+          "filename": "03 Greek Castle.vgz",
+          "name": "Greek Castle",
+          "nameJp": "グリーク城内"
+        },
+        {
+          "filename": "04 Fairy.vgz",
+          "name": "Fairy",
+          "nameJp": "妖精"
+        },
+        {
+          "filename": "05 Temple.vgz",
+          "name": "Temple",
+          "nameJp": "神殿"
+        },
+        {
+          "filename": "06 World.vgz",
+          "name": "World",
+          "nameJp": "ワールド"
+        },
+        {
+          "filename": "07 Magnifying Glass.vgz",
+          "name": "Magnifying Glass",
+          "nameJp": "虫眼鏡"
+        },
+        {
+          "filename": "08 Magic Square.vgz",
+          "name": "Magic Square",
+          "nameJp": "魔方陣"
+        },
+        {
+          "filename": "09 Great Demon.vgz",
+          "name": "Great Demon",
+          "nameJp": "大悪魔"
+        },
+        {
+          "filename": "10 After Boss Battle.vgz",
+          "name": "After Boss Battle",
+          "nameJp": "ボス戦後"
+        },
+        {
+          "filename": "11 World Clear.vgz",
+          "name": "World Clear",
+          "nameJp": "ワールドクリア"
+        },
+        {
+          "filename": "12 Fanfare.vgz",
+          "name": "Fanfare",
+          "nameJp": "ファンファーレ"
+        },
+        {
+          "filename": "13 Ending.vgz",
+          "name": "Ending",
+          "nameJp": "エンディング"
+        },
+        {
+          "filename": "14 Player Out.vgz",
+          "name": "Player Out",
+          "nameJp": "プレイヤーアウト"
+        },
+        {
+          "filename": "15 Game Over.vgz",
+          "name": "Game Over",
+          "nameJp": "ゲームオーバー"
         }
       ]
     },

@@ -31,7 +31,10 @@
       "Bash(gh pr create:*)",
       "Bash(gh pr merge:*)",
       "Bash(gh pr view:*)",
-      "Bash(sips:*)"
+      "Bash(sips:*)",
+      "Bash(git rebase:*)",
+      "Bash(GIT_EDITOR=true git rebase:*)",
+      "Bash(git stash:*)"
     ]
   }
 }
