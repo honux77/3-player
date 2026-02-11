@@ -553,6 +553,18 @@ export function useVGMPlayer() {
     }
   }, [isReady])
 
+  // Unlock AudioContext synchronously in a user-gesture callback
+  // so that subsequent async play() calls are not blocked on mobile.
+  const resumeAudio = useCallback(() => {
+    if (!contextRef.current || contextRef.current.state === 'closed') {
+      window.AudioContext = window.AudioContext || window.webkitAudioContext
+      contextRef.current = new AudioContext()
+    }
+    if (contextRef.current.state === 'suspended') {
+      contextRef.current.resume()
+    }
+  }, [])
+
   // Keep latest nextTrack in a ref to avoid closures across events
   useEffect(() => {
     nextTrackRef.current = nextTrack
@@ -631,6 +643,7 @@ export function useVGMPlayer() {
     stop,
     togglePlayback,
     nextTrack,
-    prevTrack
+    prevTrack,
+    resumeAudio
   }
 }

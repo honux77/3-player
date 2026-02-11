@@ -266,6 +266,11 @@ function App() {
     activeFormatRef.current = newFormat
 
     const targetPlayer = getPlayerForGame(game)
+
+    // Unlock AudioContext synchronously while still in user-gesture context.
+    // Mobile browsers block AudioContext.resume() after async boundaries.
+    targetPlayer.resumeAudio()
+
     setSelectedGame(game)
     setLoadingGame(true)
     setLoadingProgress({ percent: 0, message: 'LOADING...' })

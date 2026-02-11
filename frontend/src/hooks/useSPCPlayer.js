@@ -220,7 +220,17 @@ export function useSPCPlayer() {
     const engine = spcEngine
     if (!engine) return
 
-    if (isPlayingRef.current) stop()
+    // Clean up previous playback without suspending AudioContext.
+    // Calling stop() would suspend the context, causing a race condition
+    // with the subsequent resume() and breaking playback on mobile.
+    if (fadeTimerRef.current) { clearInterval(fadeTimerRef.current); fadeTimerRef.current = null }
+    if (endTimerRef.current) { clearTimeout(endTimerRef.current); endTimerRef.current = null }
+    if (nodeRef.current) {
+      try { nodeRef.current.onaudioprocess = null; nodeRef.current.disconnect() } catch (e) { }
+    }
+    if (gainNodeRef.current) try { gainNodeRef.current.disconnect() } catch (e) { }
+    if (analyserRef.current) try { analyserRef.current.disconnect() } catch (e) { }
+    isPlayingRef.current = false
 
     // AudioContext
     if (!contextRef.current || contextRef.current.state === 'closed') {
@@ -345,15 +355,25 @@ export function useSPCPlayer() {
   const nextTrack = useCallback(() => {
     nextTrackRef.current = nextTrack
     const nextIdx = (currentTrackIndex + 1) % trackList.length
-    stop()
-    setTimeout(() => play(nextIdx), 100)
-  }, [currentTrackIndex, trackList.length, stop, play])
+    play(nextIdx)
+  }, [currentTrackIndex, trackList.length, play])
 
   const prevTrack = useCallback(() => {
     const prevIdx = currentTrackIndex === 0 ? trackList.length - 1 : currentTrackIndex - 1
-    stop()
-    setTimeout(() => play(prevIdx), 100)
-  }, [currentTrackIndex, trackList.length, stop, play])
+    play(prevIdx)
+  }, [currentTrackIndex, trackList.length, play])
+
+  // Unlock AudioContext synchronously in a user-gesture callback
+  // so that subsequent async play() calls are not blocked on mobile.
+  const resumeAudio = useCallback(() => {
+    if (!contextRef.current || contextRef.current.state === 'closed') {
+      window.AudioContext = window.AudioContext || window.webkitAudioContext
+      contextRef.current = new AudioContext()
+    }
+    if (contextRef.current.state === 'suspended') {
+      contextRef.current.resume()
+    }
+  }, [])
 
   useEffect(() => { nextTrackRef.current = nextTrack }, [nextTrack])
 
@@ -466,6 +486,7 @@ export function useSPCPlayer() {
     stop,
     togglePlayback,
     nextTrack,
-    prevTrack
+    prevTrack,
+    resumeAudio
   }
 }
