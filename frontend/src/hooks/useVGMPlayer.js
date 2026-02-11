@@ -153,35 +153,40 @@ export function useVGMPlayer() {
         const lowerPath = originalPath.toLowerCase()
 
         if (lowerPath.endsWith('.vgm') || lowerPath.endsWith('.vgz')) {
-          const fileArray = mz.extract(originalPath)
-          // Sanitize filename - replace spaces and special chars
-          const safePath = originalPath.replace(/[^a-zA-Z0-9._-]/g, '_')
-
           try {
-            vgmFS.unlink(safePath)
-          } catch (e) { }
-          vgmFS.createDataFile('/', safePath, fileArray, true, true)
+            const fileArray = mz.extract(originalPath)
+            // Sanitize filename - replace spaces and special chars
+            const safePath = originalPath.replace(/[^a-zA-Z0-9._-]/g, '_')
 
-          // Get track info
-          functionsRef.current.OpenVGMFile(safePath)
-          functionsRef.current.PlayVGM()
-          const length = functionsRef.current.GetTrackLength() * sampleRateRef.current / 44100
-          const lengthSeconds = Math.round(length / sampleRateRef.current)
-          const title = functionsRef.current.ShowTitle()
-          functionsRef.current.StopVGM()
-          functionsRef.current.CloseVGMFile()
+            try {
+              vgmFS.unlink(safePath)
+            } catch (e) { }
+            vgmFS.createDataFile('/', safePath, fileArray, true, true)
 
-          // Parse title: trackNameEn|||trackNameJp|||gameNameEn|||...
-          const titleParts = title.split('|||')
-          const trackName = titleParts[0] || titleParts[1] || originalPath.replace(/\.(vgm|vgz)$/i, '').replace(/^\d+\s*/, '')
+            // Get track info
+            functionsRef.current.OpenVGMFile(safePath)
+            functionsRef.current.PlayVGM()
+            const length = functionsRef.current.GetTrackLength() * sampleRateRef.current / 44100
+            const lengthSeconds = Math.round(length / sampleRateRef.current)
+            const title = functionsRef.current.ShowTitle()
+            functionsRef.current.StopVGM()
+            functionsRef.current.CloseVGMFile()
 
-          tracks.push({
-            path: safePath,
-            name: trackName,
-            length: lengthSeconds,
-            lengthFormatted: new Date(lengthSeconds * 1000).toISOString().substr(14, 5),
-            title
-          })
+            // Parse title: trackNameEn|||trackNameJp|||gameNameEn|||...
+            const titleParts = title.split('|||')
+            const trackName = titleParts[0] || titleParts[1] || originalPath.replace(/\.(vgm|vgz)$/i, '').replace(/^\d+\s*/, '')
+
+            tracks.push({
+              path: safePath,
+              name: trackName,
+              length: lengthSeconds,
+              lengthFormatted: new Date(lengthSeconds * 1000).toISOString().substr(14, 5),
+              title
+            })
+          } catch (extractError) {
+            console.warn(`Failed to extract file: ${originalPath}`, extractError)
+            // Skip this file and continue with others
+          }
         }
       }
 
