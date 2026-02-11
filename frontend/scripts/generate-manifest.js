@@ -489,7 +489,7 @@ async function main() {
     fs.mkdirSync(OG_COVERS_DIR, { recursive: true })
   }
 
-  const files = fs.readdirSync(DIST_DIR).filter(f => f.endsWith('.zip'))
+  const files = fs.readdirSync(DIST_DIR).filter(f => f.endsWith('.zip') && !f.includes('_backup'))
   console.log(`Found ${files.length} zip files`)
 
   const manifest = {
@@ -533,7 +533,7 @@ async function main() {
 
   // Process SPC directory
   if (fs.existsSync(SPC_DIR)) {
-    const spcFiles = fs.readdirSync(SPC_DIR).filter(f => f.endsWith('.zip'))
+    const spcFiles = fs.readdirSync(SPC_DIR).filter(f => f.endsWith('.zip') && !f.includes('_backup'))
     console.log(`\nFound ${spcFiles.length} SPC zip files`)
 
     for (const file of spcFiles) {
