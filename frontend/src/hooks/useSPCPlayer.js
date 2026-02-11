@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 
-// SPC engine singleton - loaded lazily on first SPC game selection
+// SPC engine singleton - loaded lazily inside a hidden iframe for full isolation
+// from VGM's Emscripten globals (Module, FS, HEAP16, ccall, ccallFunc, etc.)
 let spcEngine = null
 let spcEnginePromise = null
 
@@ -9,64 +10,51 @@ function loadSPCEngine() {
   if (spcEnginePromise) return spcEnginePromise
 
   spcEnginePromise = new Promise((resolve, reject) => {
-    // Save VGM's Module (only Module needs restoring; VGM's FS is saved in useVGMPlayer ref)
-    const savedModule = window.Module
+    const iframe = document.createElement('iframe')
+    iframe.style.display = 'none'
+    iframe.srcdoc = [
+      '<!DOCTYPE html><html><head>',
+      '<script>var Module = { memoryInitializerPrefixURL: "/spc-engine/" };<\/script>',
+      '<script src="/spc-engine/spc_snes.js"><\/script>',
+      '</head><body></body></html>'
+    ].join('')
 
-    // Fresh Module for SPC with memory file path
-    window.Module = { memoryInitializerPrefixURL: '/spc-engine/' }
+    document.body.appendChild(iframe)
 
-    const script = document.createElement('script')
-    script.src = '/spc-engine/spc_snes.js'
+    const check = setInterval(() => {
+      try {
+        const win = iframe.contentWindow
+        if (win &&
+            typeof win._my_init === 'function' &&
+            typeof win._my_decode === 'function' &&
+            win.HEAP16 &&
+            win.Module && win.Module.calledRun) {
+          clearInterval(check)
 
-    script.onerror = () => {
-      window.Module = savedModule
-      spcEnginePromise = null
-      reject(new Error('Failed to load spc_snes.js'))
-    }
-
-    script.onload = () => {
-      const check = setInterval(() => {
-        try {
-          // Must wait for calledRun - ensures .mem file is fully loaded
-          if (typeof window._my_init === 'function' &&
-              typeof window._my_decode === 'function' &&
-              window.HEAP16 &&
-              window.Module && window.Module.calledRun) {
-            clearInterval(check)
-
-            // Capture SPC engine into isolated object
-            spcEngine = {
-              allocate: window.allocate,
-              ALLOC_STACK: window.ALLOC_STACK,
-              _my_init: window._my_init,
-              _my_decode: window._my_decode,
-              HEAP16: window.HEAP16,
-              Module: window.Module,
-            }
-
-            // Only restore Module - SPC's FS/HEAP/etc must remain on window
-            // so SPC internal code (fprintf etc.) can access them.
-            // VGM player uses its own saved FS ref (vgmFSRef) for file ops.
-            window.Module = savedModule
-
-            resolve(spcEngine)
+          spcEngine = {
+            win,  // iframe's window - use for HEAP16 (may change on memory growth)
+            allocate: win.allocate,
+            ALLOC_STACK: win.ALLOC_STACK,
+            _my_init: win._my_init,
+            _my_decode: win._my_decode,
+            _iframe: iframe,
           }
-        } catch (e) {
-          // keep polling
-        }
-      }, 100)
 
-      setTimeout(() => {
-        clearInterval(check)
-        if (!spcEngine) {
-          window.Module = savedModule
-          spcEnginePromise = null
-          reject(new Error('SPC engine init timeout'))
+          resolve(spcEngine)
         }
-      }, 15000)
-    }
+      } catch (e) {
+        // keep polling
+      }
+    }, 100)
 
-    document.head.appendChild(script)
+    setTimeout(() => {
+      clearInterval(check)
+      if (!spcEngine) {
+        try { document.body.removeChild(iframe) } catch (e) { }
+        spcEnginePromise = null
+        reject(new Error('SPC engine init timeout'))
+      }
+    }, 15000)
   })
 
   return spcEnginePromise
@@ -267,7 +255,7 @@ export function useSPCPlayer() {
     const bufSize = 4 * (lastSample - 1)
     const buf = engine.allocate(new Uint8Array(bufSize + 4), 'i8', engine.ALLOC_STACK)
 
-    const getHEAP16 = () => engine.Module.HEAP16 || engine.HEAP16
+    const getHEAP16 = () => engine.win.HEAP16
 
     const sampleAt = (chan, x) => {
       const heap16 = getHEAP16()
