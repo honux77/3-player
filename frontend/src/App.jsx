@@ -86,6 +86,7 @@ function App() {
   const [installPrompt, setInstallPrompt] = useState(null)
   const [favorites, setFavorites] = useState(loadFavorites)
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(loadFilter)
+  const [searchQuery, setSearchQuery] = useState('')
   const [showHelp, setShowHelp] = useState(false)
   const initialHashHandled = useRef(false)
 
@@ -109,9 +110,14 @@ function App() {
   }, [showFavoritesOnly])
 
   // Filter and sort games
-  const filteredGames = showFavoritesOnly
-    ? games.filter(g => favorites.includes(g.id))
-    : games
+  const filteredGames = games.filter(g => {
+    if (showFavoritesOnly && !favorites.includes(g.id)) return false
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase()
+      return (g.title?.toLowerCase().includes(q) || g.titleJp?.toLowerCase().includes(q) || g.system?.toLowerCase().includes(q))
+    }
+    return true
+  })
 
   // Sort games with favorites first
   const sortedGames = [...filteredGames].sort((a, b) => {
@@ -353,19 +359,36 @@ function App() {
             <p className="section-title">SELECT YOUR MUSIC</p>
             <div className="section-divider"></div>
 
-            <div className="filter-toggle">
-              <button
-                className={`filter-btn ${!showFavoritesOnly ? 'active' : ''}`}
-                onClick={() => setShowFavoritesOnly(false)}
-              >
-                ALL
-              </button>
-              <button
-                className={`filter-btn ${showFavoritesOnly ? 'active' : ''}`}
-                onClick={() => setShowFavoritesOnly(true)}
-              >
-                ★ FAVORITES
-              </button>
+            <div className="filter-section">
+              <div className="search-box">
+                <input
+                  type="text"
+                  className="search-input"
+                  placeholder="SEARCH..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                {searchQuery && (
+                  <button className="search-clear" onClick={() => setSearchQuery('')}>×</button>
+                )}
+              </div>
+              <div className="filter-row">
+                <div className="filter-toggle">
+                  <button
+                    className={`filter-btn ${!showFavoritesOnly ? 'active' : ''}`}
+                    onClick={() => setShowFavoritesOnly(false)}
+                  >
+                    ALL
+                  </button>
+                  <button
+                    className={`filter-btn ${showFavoritesOnly ? 'active' : ''}`}
+                    onClick={() => setShowFavoritesOnly(true)}
+                  >
+                    ★ FAVORITES
+                  </button>
+                </div>
+                <span className="filter-count">{sortedGames.length} TITLES</span>
+              </div>
             </div>
 
             {!player.isReady ? (
