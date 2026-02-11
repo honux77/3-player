@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-11T01:43:37.858Z",
+  "generatedAt": "2026-02-11T02:40:32.562Z",
   "games": [
     {
       "id": "Daikoukai_Jidai__Sharp_X68000_",
@@ -3094,6 +3094,209 @@
           "filename": "31 - Hidden Palace Zone.vgz",
           "name": "Unused (Sound Test 10)",
           "nameJp": ""
+        }
+      ]
+    },
+    {
+      "id": "Sonic_the_Hedgehog_3__Mega_Drive__Genesis_",
+      "zipFile": "Sonic the Hedgehog 3 (Mega Drive, Genesis).zip",
+      "title": "Sonic the Hedgehog 3",
+      "titleJp": "ソニック・ザ・ヘッジホッグ3",
+      "system": "Sega Genesis",
+      "author": "Tomonori Sawada",
+      "coverImage": "covers/Sonic_the_Hedgehog_3__Mega_Drive__Genesis_.png",
+      "ogImage": "og-covers/Sonic_the_Hedgehog_3__Mega_Drive__Genesis_.png",
+      "trackCount": 38,
+      "tracks": [
+        {
+          "filename": "01 - Title Screen.vgz",
+          "name": "Title Screen",
+          "nameJp": "タイータル　スクリーン"
+        },
+        {
+          "filename": "02 - Data Select.vgz",
+          "name": "Data Select",
+          "nameJp": "ファイウルセレクト"
+        },
+        {
+          "filename": "03 - Angel Island Zone Act 1.vgz",
+          "name": "Angel Island Zone Act 1",
+          "nameJp": "エンジェル アイランド ゾーン 1"
+        },
+        {
+          "filename": "04 - Angel Island Zone Act 2.vgz",
+          "name": "Angel Island Zone Act 2",
+          "nameJp": "エンジェル アイランド ゾーン 2"
+        },
+        {
+          "filename": "05 - Hydrocity Zone Act 1.vgz",
+          "name": "Hydrocity Zone Act 1",
+          "nameJp": "ハイドロシティ ゾーン 1"
+        },
+        {
+          "filename": "06 - Hydrocity Zone Act 2.vgz",
+          "name": "Hydrocity Zone Act 2",
+          "nameJp": "ハイドロシティ ゾーン 2"
+        },
+        {
+          "filename": "07 - Marble Garden Zone Act 1.vgz",
+          "name": "Marble Garden Zone Act 1",
+          "nameJp": "マーブル ガーデン ゾーン 1"
+        },
+        {
+          "filename": "08 - Marble Garden Zone Act 2.vgz",
+          "name": "Marble Garden Zone Act 2",
+          "nameJp": "マーブル ガーデン ゾーン 2"
+        },
+        {
+          "filename": "09 - Carnival Night Zone Act 1.vgz",
+          "name": "Carnival Night Zone Act 1",
+          "nameJp": "カーニバル ナイト ゾーン 1"
+        },
+        {
+          "filename": "10 - Carnival Night Zone Act 2.vgz",
+          "name": "Carnival Night Zone Act 2",
+          "nameJp": "カーニバル ナイト ゾーン 2"
+        },
+        {
+          "filename": "11 - IceCap Zone Act 1.vgz",
+          "name": "IceCap Zone Act 1",
+          "nameJp": "アイスキャップ ゾーン 1"
+        },
+        {
+          "filename": "12 - IceCap Zone Act 2.vgz",
+          "name": "IceCap Zone Act 2",
+          "nameJp": "アイスキャップ ゾーン 2"
+        },
+        {
+          "filename": "13 - Launch Base Zone Act 1.vgz",
+          "name": "Launch Base Zone Act 1",
+          "nameJp": "ランチ ベース ゾーン 1"
+        },
+        {
+          "filename": "14 - Launch Base Zone Act 2.vgz",
+          "name": "Launch Base Zone Act 2",
+          "nameJp": "ランチ ベース ゾーン 2"
+        },
+        {
+          "filename": "15 - Bonus Stage (Gumball Machine).vgz",
+          "name": "Bonus Stage (Gumball Machine)",
+          "nameJp": "ボナス・ステイジョ （ガムボルマシン）"
+        },
+        {
+          "filename": "16 - Special Stage (Blue Spheres).vgz",
+          "name": "Special Stage (Blue Spheres)",
+          "nameJp": "スペシアル　ステイジュ"
+        },
+        {
+          "filename": "17 - Act Complete.vgz",
+          "name": "Act Complete",
+          "nameJp": "アクト　コンプリート"
+        },
+        {
+          "filename": "18 - Competition Menu.vgz",
+          "name": "Competition Menu",
+          "nameJp": "コムポテシヨン"
+        },
+        {
+          "filename": "19 - Azure Lake.vgz",
+          "name": "Azure Lake",
+          "nameJp": "アツルレイク"
+        },
+        {
+          "filename": "20 - Balloon Park.vgz",
+          "name": "Balloon Park",
+          "nameJp": "バルーンパーコ"
+        },
+        {
+          "filename": "21 - Chrome Gadget.vgz",
+          "name": "Chrome Gadget",
+          "nameJp": "クロムガドジェット"
+        },
+        {
+          "filename": "22 - Desert Palace.vgz",
+          "name": "Desert Palace",
+          "nameJp": "デサールトパラス"
+        },
+        {
+          "filename": "23 - Endless Mine.vgz",
+          "name": "Endless Mine",
+          "nameJp": "エンドレスマイン"
+        },
+        {
+          "filename": "24 - Results (VS. Mode).vgz",
+          "name": "Results (Vs. Mode)",
+          "nameJp": "レザルツ（VS. MODE）"
+        },
+        {
+          "filename": "25 - Miniboss.vgz",
+          "name": "Miniboss",
+          "nameJp": "ミニボッス"
+        },
+        {
+          "filename": "26 - Robotnik.vgz",
+          "name": "Robotnik",
+          "nameJp": "エッグマン"
+        },
+        {
+          "filename": "27 - Final Boss (Big Arms).vgz",
+          "name": "Final Boss (Big Arms)",
+          "nameJp": "ファイナル エッグマン"
+        },
+        {
+          "filename": "28 - Staff Roll (Unreleased).vgz",
+          "name": "Staff Roll (Unreleased)",
+          "nameJp": ""
+        },
+        {
+          "filename": "29 - Staff Roll.vgz",
+          "name": "Staff Roll",
+          "nameJp": "スタッフロール"
+        },
+        {
+          "filename": "30 - Game Complete.vgz",
+          "name": "Game Complete",
+          "nameJp": "ゲイムコンプリート"
+        },
+        {
+          "filename": "31 - Knuckles' Theme.vgz",
+          "name": "Knuckles' Theme",
+          "nameJp": "チームのナックルズ"
+        },
+        {
+          "filename": "32 - Invincibility.vgz",
+          "name": "Invincibility",
+          "nameJp": "無敵"
+        },
+        {
+          "filename": "33 - 1-Up.vgz",
+          "name": "1-Up",
+          "nameJp": "エクストラライフ"
+        },
+        {
+          "filename": "34 - Drowning.vgz",
+          "name": "Drowning",
+          "nameJp": "溺死"
+        },
+        {
+          "filename": "35 - Game Over.vgz",
+          "name": "Game Over",
+          "nameJp": "ゲイムオヴァル"
+        },
+        {
+          "filename": "36 - Continue.vgz",
+          "name": "Continue",
+          "nameJp": "コンチニュウ"
+        },
+        {
+          "filename": "37 - Chaos Emerald.vgz",
+          "name": "Chaos Emerald",
+          "nameJp": "エマラールド"
+        },
+        {
+          "filename": "38 - All Chaos Emeralds.vgz",
+          "name": "All Chaos Emeralds",
+          "nameJp": "アルエマラールドス"
         }
       ]
     },
