@@ -9,11 +9,8 @@ function loadSPCEngine() {
   if (spcEnginePromise) return spcEnginePromise
 
   spcEnginePromise = new Promise((resolve, reject) => {
-    // Save ALL Emscripten globals that VGM player sets
-    const saved = {}
-    for (const key of ['Module', 'FS', 'allocate', 'ALLOC_STACK', 'HEAP16', 'HEAPU8', 'Runtime', '_malloc', '_free']) {
-      if (key in window) saved[key] = window[key]
-    }
+    // Save VGM's Module (only Module needs restoring; VGM's FS is saved in useVGMPlayer ref)
+    const savedModule = window.Module
 
     // Fresh Module for SPC with memory file path
     window.Module = { memoryInitializerPrefixURL: '/spc-engine/' }
@@ -22,8 +19,7 @@ function loadSPCEngine() {
     script.src = '/spc-engine/spc_snes.js'
 
     script.onerror = () => {
-      // Restore on failure
-      for (const [k, v] of Object.entries(saved)) window[k] = v
+      window.Module = savedModule
       spcEnginePromise = null
       reject(new Error('Failed to load spc_snes.js'))
     }
@@ -48,8 +44,10 @@ function loadSPCEngine() {
               Module: window.Module,
             }
 
-            // Restore ALL VGM globals
-            for (const [k, v] of Object.entries(saved)) window[k] = v
+            // Only restore Module - SPC's FS/HEAP/etc must remain on window
+            // so SPC internal code (fprintf etc.) can access them.
+            // VGM player uses its own saved FS ref (vgmFSRef) for file ops.
+            window.Module = savedModule
 
             resolve(spcEngine)
           }
@@ -61,7 +59,7 @@ function loadSPCEngine() {
       setTimeout(() => {
         clearInterval(check)
         if (!spcEngine) {
-          for (const [k, v] of Object.entries(saved)) window[k] = v
+          window.Module = savedModule
           spcEnginePromise = null
           reject(new Error('SPC engine init timeout'))
         }

@@ -25,6 +25,7 @@ export function useVGMPlayer() {
   const sampleRateRef = useRef(44100)
   const nextTrackRef = useRef(null)
   const wakeLockRef = useRef(null)
+  const vgmFSRef = useRef(null) // VGM's own FS reference (isolated from SPC)
 
 
 
@@ -66,6 +67,9 @@ export function useVGMPlayer() {
       dataPtrsRef.current[1] = Module._malloc(16384 * 2)
       dataHeapsRef.current[0] = new Int16Array(Module.HEAPU8.buffer, dataPtrsRef.current[0], 16384)
       dataHeapsRef.current[1] = new Int16Array(Module.HEAPU8.buffer, dataPtrsRef.current[1], 16384)
+
+      // Save VGM's FS before SPC engine can overwrite window.FS
+      vgmFSRef.current = window.FS
 
       functionsRef.current.VGMPlay_Init()
       functionsRef.current.SetSampleRate(sampleRateRef.current)
@@ -122,13 +126,14 @@ export function useVGMPlayer() {
     setCurrentTrack(null)
     setTrackInfo(null)
 
-    // Clean up previous files from FS
+    // Clean up previous files from VGM's own FS (not window.FS which may be SPC's)
+    const vgmFS = vgmFSRef.current || window.FS
     try {
-      const files = window.FS.readdir('/')
+      const files = vgmFS.readdir('/')
       for (const file of files) {
         if (file.endsWith('.vgm') || file.endsWith('.vgz')) {
           try {
-            window.FS.unlink('/' + file)
+            vgmFS.unlink('/' + file)
           } catch (e) { }
         }
       }
@@ -153,9 +158,9 @@ export function useVGMPlayer() {
           const safePath = originalPath.replace(/[^a-zA-Z0-9._-]/g, '_')
 
           try {
-            window.FS.unlink(safePath)
+            vgmFS.unlink(safePath)
           } catch (e) { }
-          window.FS.createDataFile('/', safePath, fileArray, true, true)
+          vgmFS.createDataFile('/', safePath, fileArray, true, true)
 
           // Get track info
           functionsRef.current.OpenVGMFile(safePath)
