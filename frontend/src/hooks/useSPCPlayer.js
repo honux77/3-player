@@ -118,7 +118,7 @@ export function useSPCPlayer() {
     }
   }, [])
 
-  const loadZip = useCallback(async (url) => {
+  const loadZip = useCallback(async (url, onProgress) => {
     // Clear previous state
     setTrackList([])
     setCurrentTrackIndex(0)
@@ -128,9 +128,11 @@ export function useSPCPlayer() {
 
     try {
       // Lazy-load SPC engine on first use (won't reload if already loaded)
+      onProgress?.({ percent: 0, message: 'INITIALIZING ENGINE...' })
       await loadSPCEngine()
 
       // Ensure minizip is available
+      onProgress?.({ percent: 15, message: 'LOADING MINIZIP...' })
       if (!window.Minizip) {
         await new Promise((resolve, reject) => {
           const s = document.createElement('script')
@@ -141,17 +143,21 @@ export function useSPCPlayer() {
         })
       }
 
+      onProgress?.({ percent: 25, message: 'DOWNLOADING...' })
       const response = await fetch(url)
       const arrayBuffer = await response.arrayBuffer()
       const byteArray = new Uint8Array(arrayBuffer)
 
+      onProgress?.({ percent: 50, message: 'EXTRACTING TRACKS...' })
       const mz = new window.Minizip(byteArray)
       const fileList = mz.list()
+      const spcFiles = fileList.filter(f => f.filepath.toLowerCase().endsWith('.spc'))
+      const total = spcFiles.length
       const tracks = []
 
-      for (const file of fileList) {
-        const lowerPath = file.filepath.toLowerCase()
-        if (!lowerPath.endsWith('.spc')) continue
+      for (let i = 0; i < spcFiles.length; i++) {
+        const file = spcFiles[i]
+        onProgress?.({ percent: 50 + Math.round((i / total) * 45), message: `LOADING TRACK ${i + 1}/${total}...` })
 
         const fileArray = mz.extract(file.filepath)
         const spcInfo = parseSPCID666(fileArray)
@@ -172,6 +178,7 @@ export function useSPCPlayer() {
         spcDataRef.current.push({ filename: file.filepath, data: new Uint8Array(fileArray), ...track })
       }
 
+      onProgress?.({ percent: 100, message: 'DONE' })
       setTrackList(tracks)
       if (tracks.length > 0) setCurrentTrackIndex(0)
       return tracks

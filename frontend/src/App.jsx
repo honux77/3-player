@@ -83,6 +83,7 @@ function App() {
   const [games, setGames] = useState([])
   const [selectedGame, setSelectedGame] = useState(null)
   const [loadingGame, setLoadingGame] = useState(false)
+  const [loadingProgress, setLoadingProgress] = useState(null) // { percent, message }
   const [error, setError] = useState(null)
   const [installPrompt, setInstallPrompt] = useState(null)
   const [favorites, setFavorites] = useState(loadFavorites)
@@ -160,10 +161,12 @@ function App() {
     activeFormatRef.current = game.format || 'vgm'
     setSelectedGame(game)
     setLoadingGame(true)
+    setLoadingProgress({ percent: 0, message: 'LOADING...' })
     setScreen('player')
 
-    const tracks = await targetPlayer.loadZip(`/music/${game.zipFile}`)
+    const tracks = await targetPlayer.loadZip(`/music/${game.zipFile}`, setLoadingProgress)
     setLoadingGame(false)
+    setLoadingProgress(null)
 
     if (tracks && tracks.length > 0) {
       let trackIndex = 0
@@ -265,10 +268,12 @@ function App() {
     const targetPlayer = getPlayerForGame(game)
     setSelectedGame(game)
     setLoadingGame(true)
-
-    const tracks = await targetPlayer.loadZip(`/music/${game.zipFile}`)
-    setLoadingGame(false)
+    setLoadingProgress({ percent: 0, message: 'LOADING...' })
     setScreen('player')
+
+    const tracks = await targetPlayer.loadZip(`/music/${game.zipFile}`, setLoadingProgress)
+    setLoadingGame(false)
+    setLoadingProgress(null)
 
     if (tracks && tracks.length > 0) {
       setTimeout(() => {
@@ -504,9 +509,9 @@ function App() {
 
             {loadingGame ? (
               <div className="loading">
-                <p className="loading-text">LOADING TRACKS...</p>
+                <p className="loading-text">{loadingProgress?.message || 'LOADING TRACKS...'}</p>
                 <div className="loading-bar">
-                  <div className="loading-progress"></div>
+                  <div className="loading-progress real" style={{ width: `${loadingProgress?.percent || 0}%` }}></div>
                 </div>
               </div>
             ) : (

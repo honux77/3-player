@@ -117,7 +117,7 @@ export function useVGMPlayer() {
   // Note: avoid referencing nextTrack in a useEffect before nextTrack is defined
   // Removed elapsed-based auto-advance to rely solely on VGMEnded debounce logic
 
-  const loadZip = useCallback(async (url) => {
+  const loadZip = useCallback(async (url, onProgress) => {
     if (!isReady) return
 
     // Clear previous state
@@ -140,56 +140,63 @@ export function useVGMPlayer() {
     } catch (e) { }
 
     try {
+      onProgress?.({ percent: 10, message: 'DOWNLOADING...' })
       const response = await fetch(url)
       const arrayBuffer = await response.arrayBuffer()
       const byteArray = new Uint8Array(arrayBuffer)
 
+      onProgress?.({ percent: 40, message: 'EXTRACTING TRACKS...' })
       const mz = new window.Minizip(byteArray)
       const fileList = mz.list()
+      const vgmFiles = fileList.filter(f => {
+        const lp = f.filepath.toLowerCase()
+        return lp.endsWith('.vgm') || lp.endsWith('.vgz')
+      })
+      const total = vgmFiles.length
       const tracks = []
 
-      for (const file of fileList) {
+      for (let i = 0; i < vgmFiles.length; i++) {
+        const file = vgmFiles[i]
         const originalPath = file.filepath
-        const lowerPath = originalPath.toLowerCase()
+        onProgress?.({ percent: 40 + Math.round((i / total) * 55), message: `LOADING TRACK ${i + 1}/${total}...` })
 
-        if (lowerPath.endsWith('.vgm') || lowerPath.endsWith('.vgz')) {
+        try {
+          const fileArray = mz.extract(originalPath)
+          // Sanitize filename - replace spaces and special chars
+          const safePath = originalPath.replace(/[^a-zA-Z0-9._-]/g, '_')
+
           try {
-            const fileArray = mz.extract(originalPath)
-            // Sanitize filename - replace spaces and special chars
-            const safePath = originalPath.replace(/[^a-zA-Z0-9._-]/g, '_')
+            vgmFS.unlink(safePath)
+          } catch (e) { }
+          vgmFS.createDataFile('/', safePath, fileArray, true, true)
 
-            try {
-              vgmFS.unlink(safePath)
-            } catch (e) { }
-            vgmFS.createDataFile('/', safePath, fileArray, true, true)
+          // Get track info
+          functionsRef.current.OpenVGMFile(safePath)
+          functionsRef.current.PlayVGM()
+          const length = functionsRef.current.GetTrackLength() * sampleRateRef.current / 44100
+          const lengthSeconds = Math.round(length / sampleRateRef.current)
+          const title = functionsRef.current.ShowTitle()
+          functionsRef.current.StopVGM()
+          functionsRef.current.CloseVGMFile()
 
-            // Get track info
-            functionsRef.current.OpenVGMFile(safePath)
-            functionsRef.current.PlayVGM()
-            const length = functionsRef.current.GetTrackLength() * sampleRateRef.current / 44100
-            const lengthSeconds = Math.round(length / sampleRateRef.current)
-            const title = functionsRef.current.ShowTitle()
-            functionsRef.current.StopVGM()
-            functionsRef.current.CloseVGMFile()
+          // Parse title: trackNameEn|||trackNameJp|||gameNameEn|||...
+          const titleParts = title.split('|||')
+          const trackName = titleParts[0] || titleParts[1] || originalPath.replace(/\.(vgm|vgz)$/i, '').replace(/^\d+\s*/, '')
 
-            // Parse title: trackNameEn|||trackNameJp|||gameNameEn|||...
-            const titleParts = title.split('|||')
-            const trackName = titleParts[0] || titleParts[1] || originalPath.replace(/\.(vgm|vgz)$/i, '').replace(/^\d+\s*/, '')
-
-            tracks.push({
-              path: safePath,
-              name: trackName,
-              length: lengthSeconds,
-              lengthFormatted: new Date(lengthSeconds * 1000).toISOString().substr(14, 5),
-              title
-            })
-          } catch (extractError) {
-            console.warn(`Failed to extract file: ${originalPath}`, extractError)
-            // Skip this file and continue with others
-          }
+          tracks.push({
+            path: safePath,
+            name: trackName,
+            length: lengthSeconds,
+            lengthFormatted: new Date(lengthSeconds * 1000).toISOString().substr(14, 5),
+            title
+          })
+        } catch (extractError) {
+          console.warn(`Failed to extract file: ${originalPath}`, extractError)
+          // Skip this file and continue with others
         }
       }
 
+      onProgress?.({ percent: 100, message: 'DONE' })
       setTrackList(tracks)
       if (tracks.length > 0) {
         setCurrentTrackIndex(0)

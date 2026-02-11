@@ -612,6 +612,11 @@
   animation: loading 2s ease-in-out infinite;
 }
 
+.loading-progress.real {
+  animation: none;
+  transition: width 0.3s ease;
+}
+
 @keyframes loading {
   0% { width: 0%; }
   50% { width: 100%; }
