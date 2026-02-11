@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-11T00:57:31.275Z",
+  "generatedAt": "2026-02-11T01:20:34.524Z",
   "games": [
     {
       "id": "Daikoukai_Jidai__Sharp_X68000_",
@@ -2186,6 +2186,169 @@
           "filename": "17 The War is Over (Game Over).vgz",
           "name": "The War is Over (Game Over)",
           "nameJp": "THE WAR IS OVER（ゲームオーバー）"
+        }
+      ]
+    },
+    {
+      "id": "Ninja_Gaiden_II___The_Dark_Sword_of_Chaos__NES_",
+      "zipFile": "Ninja_Gaiden_II_-_The_Dark_Sword_of_Chaos_(NES).zip",
+      "title": "Ninja Gaiden II: The Dark Sword of Chaos",
+      "titleJp": "忍者龍剣伝II 暗黒の邪神剣",
+      "system": "Nintendo Entertainment System",
+      "author": "Ryuichi Nitta",
+      "coverImage": "covers/Ninja_Gaiden_II___The_Dark_Sword_of_Chaos__NES_.png",
+      "ogImage": "og-covers/Ninja_Gaiden_II___The_Dark_Sword_of_Chaos__NES_.png",
+      "trackCount": 30,
+      "tracks": [
+        {
+          "filename": "01 Chaosium Sword.vgz",
+          "name": "Chaosium Sword",
+          "nameJp": "CHAOSIUM SWORD"
+        },
+        {
+          "filename": "02 Twist of Fate II.vgz",
+          "name": "Twist of Fate II",
+          "nameJp": "TWIST OF FATE/II"
+        },
+        {
+          "filename": "03 Going Gets Tough.vgz",
+          "name": "Going Gets Tough",
+          "nameJp": "GOING GETS TOUGH"
+        },
+        {
+          "filename": "04 Battlefield.vgz",
+          "name": "Battlefield",
+          "nameJp": "BATTLEFIELD/II"
+        },
+        {
+          "filename": "05 Robert the Army.vgz",
+          "name": "Robert the Army",
+          "nameJp": "ROBERT THE ARMY"
+        },
+        {
+          "filename": "06 It's Too Late.vgz",
+          "name": "It's Too Late...",
+          "nameJp": "ITS TOO LATE..."
+        },
+        {
+          "filename": "07 Dehumanize.vgz",
+          "name": "Dehumanize",
+          "nameJp": "DEHUMANIZE"
+        },
+        {
+          "filename": "08 Interlude II.vgz",
+          "name": "Interlude II",
+          "nameJp": "INTERLUDE 2"
+        },
+        {
+          "filename": "09 Thunderstorm.vgz",
+          "name": "Thunderstorm",
+          "nameJp": "THUNDERSTORM"
+        },
+        {
+          "filename": "10 Overdrive.vgz",
+          "name": "Overdrive",
+          "nameJp": "OVERDRIVE"
+        },
+        {
+          "filename": "11 No End Darkness.vgz",
+          "name": "No End Darkness",
+          "nameJp": "NO END DARKNESS"
+        },
+        {
+          "filename": "12 Tower Lahja.vgz",
+          "name": "Tower Lahja",
+          "nameJp": "TOWER LAHJA"
+        },
+        {
+          "filename": "13 World Enslaved.vgz",
+          "name": "World Enslaved",
+          "nameJp": "WORLD ENSLAVED"
+        },
+        {
+          "filename": "14 The Parasprinter.vgz",
+          "name": "The Parasprinter",
+          "nameJp": "THE PARASPRINTER"
+        },
+        {
+          "filename": "15 Irene Captured.vgz",
+          "name": "Irene Captured",
+          "nameJp": "IRENE CAPTURED"
+        },
+        {
+          "filename": "16 The Dark Emperor.vgz",
+          "name": "The Dark Emperor",
+          "nameJp": "THE DARK EMPEROR"
+        },
+        {
+          "filename": "17 Hideous Relics.vgz",
+          "name": "Hideous Relics",
+          "nameJp": "HIDEOUS RELICS"
+        },
+        {
+          "filename": "18 Interlude I.vgz",
+          "name": "Interlude I",
+          "nameJp": "INTERLUDE 1"
+        },
+        {
+          "filename": "19 Fire Cavern.vgz",
+          "name": "Fire Cavern",
+          "nameJp": "FIRE CAVERN"
+        },
+        {
+          "filename": "20 Shadow Diabolica.vgz",
+          "name": "Shadow Diabolica",
+          "nameJp": "SHADOW DIABOLICA"
+        },
+        {
+          "filename": "21 To the Rescue.vgz",
+          "name": "To the Rescue",
+          "nameJp": "TO THE RESCUE"
+        },
+        {
+          "filename": "22 Unlimited Moment.vgz",
+          "name": "Unlimited Moment",
+          "nameJp": "UNLIMITED MOMENT"
+        },
+        {
+          "filename": "23 Castle Demonic.vgz",
+          "name": "Castle Demonic",
+          "nameJp": "CASTLE DEMONIC"
+        },
+        {
+          "filename": "24 Ryu Fights Back.vgz",
+          "name": "Ryu Fights Back",
+          "nameJp": "RYU FIGHTS BACK"
+        },
+        {
+          "filename": "25 Lord of Night.vgz",
+          "name": "Lord of Night",
+          "nameJp": "LORD OF NIGHT"
+        },
+        {
+          "filename": "26 Irene & Ryu.vgz",
+          "name": "Irene & Ryu",
+          "nameJp": "IRENE AND RYU"
+        },
+        {
+          "filename": "27 A Long Way To Go.vgz",
+          "name": "A Long Way To Go",
+          "nameJp": "A LONG WAY TO GO"
+        },
+        {
+          "filename": "28 Defeated.vgz",
+          "name": "Defeated",
+          "nameJp": "DEFEATED"
+        },
+        {
+          "filename": "29 All Gone.vgz",
+          "name": "All Gone",
+          "nameJp": "AL GONE/II"
+        },
+        {
+          "filename": "30 Unused.vgz",
+          "name": "Unused",
+          "nameJp": "未使用"
         }
       ]
     },

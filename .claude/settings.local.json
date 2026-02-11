@@ -36,7 +36,13 @@
       "Bash(GIT_EDITOR=true git rebase:*)",
       "Bash(git stash:*)",
       "Bash(tree:*)",
-      "Bash(pushd:*)"
+      "Bash(pushd:*)",
+      "Bash(identify:*)",
+      "Bash(xargs file:*)",
+      "Bash(npx sharp-cli:*)",
+      "Bash(node -e:*)",
+      "Bash(npm ls:*)",
+      "Bash(fc-list:*)"
     ]
   }
 }

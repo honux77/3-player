@@ -13,9 +13,149 @@ const COVERS_DIR = path.join(OUTPUT_DIR, 'covers')
 const OG_COVERS_DIR = path.join(OUTPUT_DIR, 'og-covers')
 const MANIFEST_PATH = path.join(OUTPUT_DIR, 'manifest.json')
 
-// OG image dimensions (test: 640x480 full cover)
-const OG_WIDTH = 640
-const OG_HEIGHT = 480
+// OG image dimensions (Facebook/Twitter recommended)
+const OG_WIDTH = 1200
+const OG_HEIGHT = 630
+const OG_BG_COLOR = '#0f0f23'
+
+// Load Press Start 2P font for SVG text rendering
+const FONT_PATH = path.join(__dirname, 'fonts/PressStart2P-Regular.ttf')
+const fontBase64 = fs.readFileSync(FONT_PATH).toString('base64')
+
+function escapeXml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
+}
+
+function wrapText(text, maxChars) {
+  const words = text.split(' ')
+  const lines = []
+  let line = ''
+  for (const word of words) {
+    if (line && line.length + 1 + word.length > maxChars) {
+      lines.push(line)
+      line = word
+    } else {
+      line = line ? `${line} ${word}` : word
+    }
+  }
+  if (line) lines.push(line)
+  return lines
+}
+
+function createTextOverlaySvg(gameInfo) {
+  const title = escapeXml(gameInfo?.title || 'Unknown Game')
+  const titleJp = gameInfo?.titleJp && gameInfo.titleJp !== gameInfo.title ? escapeXml(gameInfo.titleJp) : ''
+  const system = escapeXml(gameInfo?.system || 'Unknown')
+
+  // Dynamic font size
+  const rawTitle = gameInfo?.title || 'Unknown Game'
+  let fontSize = 24
+  if (rawTitle.length > 20) fontSize = 20
+  if (rawTitle.length > 28) fontSize = 16
+  if (rawTitle.length > 36) fontSize = 13
+
+  const maxChars = Math.floor(580 / (fontSize * 0.62))
+  const titleLines = wrapText(rawTitle, maxChars)
+
+  // Title lines
+  let y = 160
+  const titleEls = titleLines.slice(0, 3).map((line, i) => {
+    const ly = y + i * (fontSize + 14)
+    return `<text x="540" y="${ly}" font-family="'Press Start 2P', monospace" font-size="${fontSize}" fill="#00fff7" filter="url(#glow)">${escapeXml(line)}</text>`
+  }).join('\n    ')
+
+  // Japanese title
+  const afterTitleY = y + titleLines.slice(0, 3).length * (fontSize + 14) + 16
+  const jpEl = titleJp
+    ? `<text x="540" y="${afterTitleY}" font-family="'Meiryo', 'Yu Gothic', sans-serif" font-size="16" fill="#ffff00" opacity="0.85">${titleJp}</text>`
+    : ''
+
+  // System badge
+  const badgeY = afterTitleY + (jpEl ? 44 : 16)
+  const badgeW = system.length * 10.5 + 28
+  const badgeEl = `
+    <rect x="536" y="${badgeY - 18}" width="${badgeW}" height="30" rx="3" fill="rgba(0,255,0,0.08)" stroke="#00ff00" stroke-width="2"/>
+    <text x="550" y="${badgeY}" font-family="'Press Start 2P', monospace" font-size="11" fill="#00ff00">${system}</text>`
+
+  // Branding
+  const brandEl = `<text x="1150" y="590" text-anchor="end" font-family="'Press Start 2P', monospace" font-size="14" fill="#8888aa">&#9834; 9 Player</text>`
+
+  // Accent lines
+  const lines = `
+    <rect x="0" y="0" width="1200" height="3" fill="#00fff7" opacity="0.8"/>
+    <rect x="0" y="627" width="1200" height="3" fill="#ff00ff" opacity="0.8"/>`
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
+  <defs>
+    <style>
+      @font-face {
+        font-family: 'Press Start 2P';
+        src: url('data:font/truetype;base64,${fontBase64}') format('truetype');
+      }
+    </style>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  ${lines}
+  ${titleEls}
+  ${jpEl}
+  ${badgeEl}
+  ${brandEl}
+</svg>`
+}
+
+async function createOGImage(coverImageData, gameInfo, ogFullPath) {
+  const metadata = await sharp(coverImageData).metadata()
+  const origW = metadata.width || 256
+  const origH = metadata.height || 240
+
+  // Cover area: left panel with border
+  const areaX = 50
+  const areaY = 50
+  const areaW = 430
+  const areaH = 530
+
+  // Scale to fit, nearest-neighbor for pixel art
+  const scale = Math.min(areaW / origW, areaH / origH)
+  const resW = Math.round(origW * scale)
+  const resH = Math.round(origH * scale)
+  const coverX = areaX + Math.round((areaW - resW) / 2)
+  const coverY = areaY + Math.round((areaH - resH) / 2)
+
+  // Border SVG
+  const borderSvg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
+    <rect x="${areaX - 4}" y="${areaY - 4}" width="${areaW + 8}" height="${areaH + 8}" rx="2" fill="none" stroke="#4a4a6a" stroke-width="4"/>
+  </svg>`)
+
+  // Text overlay SVG
+  const textSvg = Buffer.from(createTextOverlaySvg(gameInfo))
+
+  // Composite all layers
+  await sharp({
+    create: { width: OG_WIDTH, height: OG_HEIGHT, channels: 4, background: OG_BG_COLOR }
+  })
+    .composite([
+      {
+        input: await sharp(coverImageData)
+          .resize(resW, resH, { kernel: 'nearest' })
+          .png()
+          .toBuffer(),
+        left: coverX,
+        top: coverY
+      },
+      { input: borderSvg, left: 0, top: 0 },
+      { input: textSvg, left: 0, top: 0 }
+    ])
+    .png()
+    .toFile(ogFullPath)
+
+  return { resW, resH }
+}
 
 async function parseVGMTitle(buffer) {
   // VGM file header parsing for GD3 tag
@@ -142,18 +282,15 @@ async function processZipFile(zipPath, gameId) {
     coverImagePath = `covers/${coverFileName}`
     console.log(`  -> Extracted cover image: ${coverFileName}`)
 
-    // Generate OG image (640x480) with cover stretched to fill
+    // Generate OG image (1200x630) with retro neon template
     try {
       const ogFileName = `${gameId}.png`
       const ogFullPath = path.join(OG_COVERS_DIR, ogFileName)
 
-      await sharp(coverImageData)
-        .resize(OG_WIDTH, OG_HEIGHT, { fit: 'fill' })
-        .png()
-        .toFile(ogFullPath)
+      const { resW, resH } = await createOGImage(coverImageData, gameInfo, ogFullPath)
 
       ogImagePath = `og-covers/${ogFileName}`
-      console.log(`  -> Generated OG image: ${ogFileName} (${OG_WIDTH}x${OG_HEIGHT} fill)`)
+      console.log(`  -> Generated OG image: ${ogFileName} (cover ${resW}x${resH})`)
     } catch (e) {
       console.log(`  -> Failed to generate OG image: ${e.message}`)
     }
