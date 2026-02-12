@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-12T00:14:17.890Z",
+  "generatedAt": "2026-02-12T02:44:07.897Z",
   "games": [
     {
       "id": "Daikoukai_Jidai__Sharp_X68000_",
@@ -2480,6 +2480,90 @@
       ]
     },
     {
+      "id": "Nemesis__MSX__SCC__",
+      "format": "vgm",
+      "zipFile": "Nemesis_(MSX,_SCC+).zip",
+      "title": "Nemesis",
+      "titleJp": "ネメシス",
+      "system": "MSX",
+      "author": "Miki Higashino",
+      "coverImage": "covers/Nemesis__MSX__SCC__.png",
+      "ogImage": "og-covers/Nemesis__MSX__SCC__.png",
+      "trackCount": 14,
+      "tracks": [
+        {
+          "filename": "01 Historic Soldier (Demo).vgz",
+          "name": "Historic Soldier (Demo)",
+          "nameJp": "Historic Soldier（デモ）"
+        },
+        {
+          "filename": "02 Beginning of the History (Air Battle).vgz",
+          "name": "Beginning of the History (Air Battle)",
+          "nameJp": "Beginning Of The History（空中戦）"
+        },
+        {
+          "filename": "03 Challenger 1985 (Stage 1 BGM).vgz",
+          "name": "Challenger 1985 (Stage 1 BGM)",
+          "nameJp": "Challenger 1985（ステージ1BGM）"
+        },
+        {
+          "filename": "04 Beat Back (Stage 2 BGM).vgz",
+          "name": "Beat Back (Stage 2 BGM)",
+          "nameJp": "Beat Back（ステージ2BGM）"
+        },
+        {
+          "filename": "05 Blank Mask (Stage 3 BGM).vgz",
+          "name": "Blank Mask (Stage 3 BGM)",
+          "nameJp": "Blank Mask（ステージ3BGM）"
+        },
+        {
+          "filename": "06 Free Flyer (Stage 4 BGM).vgz",
+          "name": "Free Flyer (Stage 4 BGM)",
+          "nameJp": "Free Flyer（ステージ4BGM）"
+        },
+        {
+          "filename": "07 Bone Stage (Stage 5 BGM).vgz",
+          "name": "Bone Stage (Stage 5 BGM)",
+          "nameJp": "Bone Stage（ステージ5BGM）"
+        },
+        {
+          "filename": "08 Mazed Music (Stage 6 BGM).vgz",
+          "name": "Mazed Music (Stage 6 BGM)",
+          "nameJp": "Mazed Music（ステージ6BGM）"
+        },
+        {
+          "filename": "09 Mechanical Globule (Stage 7 BGM).vgz",
+          "name": "Mechanical Globule (Stage 7 BGM)",
+          "nameJp": "Mechanical Globule（ステージ7BGM）"
+        },
+        {
+          "filename": "10 Extra Stage.vgz",
+          "name": "Extra Stage",
+          "nameJp": "Extra Stage（エクストラステージ）"
+        },
+        {
+          "filename": "11 Final Attack (Stage 8 BGM).vgz",
+          "name": "Final Attack (Stage 8 BGM)",
+          "nameJp": "Final Attack（ステージ8BGM）"
+        },
+        {
+          "filename": "12 Aircraft Carrier (Boss).vgz",
+          "name": "Aircraft Carrier (Boss)",
+          "nameJp": "Aircraft Carrier（ボス）"
+        },
+        {
+          "filename": "13 All Pattern Clear (Ending).vgz",
+          "name": "All Pattern Clear (Ending)",
+          "nameJp": "All Pattern Clear（エンディング）"
+        },
+        {
+          "filename": "14 Game Over.vgz",
+          "name": "Game Over",
+          "nameJp": "Game Over（ゲームオーバー）"
+        }
+      ]
+    },
+    {
       "id": "Nemesis_2__MSX_",
       "format": "vgm",
       "zipFile": "Nemesis_2_(MSX).zip",
@@ -2739,6 +2823,165 @@
           "filename": "30 Unused.vgz",
           "name": "Unused",
           "nameJp": "未使用"
+        }
+      ]
+    },
+    {
+      "id": "Penguin_Adventure__MSX_",
+      "format": "vgm",
+      "zipFile": "Penguin_Adventure_(MSX).zip",
+      "title": "Penguin Adventure",
+      "titleJp": "夢大陸アドベンチャー",
+      "system": "MSX",
+      "author": "Yoshinori Sasaki, Kenichi Matsubara",
+      "coverImage": "covers/Penguin_Adventure__MSX_.png",
+      "ogImage": "og-covers/Penguin_Adventure__MSX_.png",
+      "trackCount": 29,
+      "tracks": [
+        {
+          "filename": "01 Title Screen.vgz",
+          "name": "Title Screen",
+          "nameJp": ""
+        },
+        {
+          "filename": "02 Map.vgz",
+          "name": "Map",
+          "nameJp": ""
+        },
+        {
+          "filename": "03 Forest Path.vgz",
+          "name": "Forest Path",
+          "nameJp": ""
+        },
+        {
+          "filename": "04 Cave Explorer.vgz",
+          "name": "Cave Explorer",
+          "nameJp": ""
+        },
+        {
+          "filename": "05 Ice Path.vgz",
+          "name": "Ice Path",
+          "nameJp": ""
+        },
+        {
+          "filename": "06 River Run.vgz",
+          "name": "River Run",
+          "nameJp": ""
+        },
+        {
+          "filename": "07 Underwater.vgz",
+          "name": "Underwater",
+          "nameJp": ""
+        },
+        {
+          "filename": "08 Red Desert.vgz",
+          "name": "Red Desert",
+          "nameJp": ""
+        },
+        {
+          "filename": "09 Cold River.vgz",
+          "name": "Cold River",
+          "nameJp": ""
+        },
+        {
+          "filename": "10 Snowy Woods.vgz",
+          "name": "Snowy Woods",
+          "nameJp": ""
+        },
+        {
+          "filename": "11 Fisher Shop.vgz",
+          "name": "Fisher Shop",
+          "nameJp": ""
+        },
+        {
+          "filename": "12 Santa Claus Shop.vgz",
+          "name": "Santa Claus Shop",
+          "nameJp": ""
+        },
+        {
+          "filename": "13 Angry Fisher Shop.vgz",
+          "name": "Angry Fisher Shop",
+          "nameJp": ""
+        },
+        {
+          "filename": "14 Slot Machine.vgz",
+          "name": "Slot Machine",
+          "nameJp": ""
+        },
+        {
+          "filename": "15 Super Power.vgz",
+          "name": "Super Power",
+          "nameJp": ""
+        },
+        {
+          "filename": "16 Wings.vgz",
+          "name": "Wings",
+          "nameJp": ""
+        },
+        {
+          "filename": "17 Bonus Stage.vgz",
+          "name": "Bonus Stage",
+          "nameJp": ""
+        },
+        {
+          "filename": "18 Warp Cave.vgz",
+          "name": "Warp Cave",
+          "nameJp": ""
+        },
+        {
+          "filename": "19 Boss Theme.vgz",
+          "name": "Boss Theme",
+          "nameJp": ""
+        },
+        {
+          "filename": "20 Boss Theme (no intro).vgz",
+          "name": "Boss Theme (no intro)",
+          "nameJp": ""
+        },
+        {
+          "filename": "21 Victory Fanfare.vgz",
+          "name": "Victory Fanfare",
+          "nameJp": ""
+        },
+        {
+          "filename": "22 Winning Dance.vgz",
+          "name": "Winning Dance",
+          "nameJp": ""
+        },
+        {
+          "filename": "23 Arrival.vgz",
+          "name": "Arrival",
+          "nameJp": ""
+        },
+        {
+          "filename": "24 Walking into the Tree.vgz",
+          "name": "Walking into the Tree",
+          "nameJp": ""
+        },
+        {
+          "filename": "25 Got Fruit.vgz",
+          "name": "Got Fruit",
+          "nameJp": ""
+        },
+        {
+          "filename": "26 Good Ending.vgz",
+          "name": "Good Ending",
+          "nameJp": ""
+        },
+        {
+          "filename": "27 Bad Ending.vgz",
+          "name": "Bad Ending",
+          "nameJp": ""
+        },
+        {
+          "filename": "28 Staff Roll.vgz",
+          "name": "Staff Roll",
+          "nameJp": ""
+        },
+        {
+          "filename": "29 Game Over.vgz",
+          "name": "Game Over",
+          "nameJp": ""
         }
       ]
     },
@@ -3742,6 +3985,160 @@
           "filename": "17 Main Theme (EGA Demo).vgz",
           "name": "Main Theme Version (EGA Demo)",
           "nameJp": ""
+        }
+      ]
+    },
+    {
+      "id": "The_Treasure_of_Usas__MSX2_",
+      "format": "vgm",
+      "zipFile": "The_Treasure_of_Usas_(MSX2).zip",
+      "title": "The Treasure of Usas",
+      "titleJp": "ウシャス",
+      "system": "MSX2",
+      "author": "Konami Kukeiha Club",
+      "coverImage": "covers/The_Treasure_of_Usas__MSX2_.png",
+      "ogImage": "og-covers/The_Treasure_of_Usas__MSX2_.png",
+      "trackCount": 28,
+      "tracks": [
+        {
+          "filename": "01 Play Start.vgz",
+          "name": "Play Start",
+          "nameJp": "プレイスタート"
+        },
+        {
+          "filename": "02 Introduction - Temple Selection.vgz",
+          "name": "Introduction / Temple Selection",
+          "nameJp": "はじめに/寺院の選択"
+        },
+        {
+          "filename": "03 Pegu Ruins (Neutral).vgz",
+          "name": "Pegu Ruins (Neutral)",
+          "nameJp": "ペグー遺跡（楽）"
+        },
+        {
+          "filename": "04 Pegu Ruins (Happy).vgz",
+          "name": "Pegu Ruins (Happy)",
+          "nameJp": "ペグー遺跡（喜）"
+        },
+        {
+          "filename": "05 Pegu Ruins (Angry).vgz",
+          "name": "Pegu Ruins (Angry)",
+          "nameJp": "ペグー遺跡（怒）"
+        },
+        {
+          "filename": "06 Pegu Ruins (Sad).vgz",
+          "name": "Pegu Ruins (Sad)",
+          "nameJp": "ペグー遺跡（哀）"
+        },
+        {
+          "filename": "07 Dunhuang Ruins (Neutral).vgz",
+          "name": "Dunhuang Ruins (Neutral)",
+          "nameJp": "トンコウ遺跡（楽）"
+        },
+        {
+          "filename": "08 Dunhuang Ruins (Happy).vgz",
+          "name": "Dunhuang Ruins (Happy)",
+          "nameJp": "トンコウ遺跡（喜）"
+        },
+        {
+          "filename": "09 Dunhuang Ruins (Angry).vgz",
+          "name": "Dunhuang Ruins (Angry)",
+          "nameJp": "トンコウ遺跡（怒）"
+        },
+        {
+          "filename": "10 Dunhuang Ruins (Sad).vgz",
+          "name": "Dunhuang Ruins (Sad)",
+          "nameJp": "トンコウ遺跡（哀）"
+        },
+        {
+          "filename": "11 Alchi Ruins (Neutral).vgz",
+          "name": "Alchi Ruins (Neutral)",
+          "nameJp": "アルチ遺跡（楽）"
+        },
+        {
+          "filename": "12 Alchi Ruins (Happy).vgz",
+          "name": "Alchi Ruins (Happy)",
+          "nameJp": "アルチ遺跡（喜）"
+        },
+        {
+          "filename": "13 Alchi Ruins (Angry).vgz",
+          "name": "Alchi Ruins (Angry)",
+          "nameJp": "アルチ遺跡（怒）"
+        },
+        {
+          "filename": "14 Alchi Ruins (Sad).vgz",
+          "name": "Alchi Ruins (Sad)",
+          "nameJp": "アルチ遺跡（哀）"
+        },
+        {
+          "filename": "15 Hunza Ruins (Neutral).vgz",
+          "name": "Hunza Ruins (Neutral)",
+          "nameJp": "フンザ遺跡（楽）"
+        },
+        {
+          "filename": "16 Hunza Ruins (Happy).vgz",
+          "name": "Hunza Ruins (Happy)",
+          "nameJp": "フンザ遺跡（喜）"
+        },
+        {
+          "filename": "17 Hunza Ruins (Angry).vgz",
+          "name": "Hunza Ruins (Angry)",
+          "nameJp": "フンザ遺跡（怒）"
+        },
+        {
+          "filename": "18 Hunza Ruins (Sad).vgz",
+          "name": "Hunza Ruins (Sad)",
+          "nameJp": "フンザ遺跡（哀）"
+        },
+        {
+          "filename": "19 Agra Ruins (Neutral).vgz",
+          "name": "Agra Ruins (Neutral)",
+          "nameJp": "アグラ遺跡（楽）"
+        },
+        {
+          "filename": "20 Agra Ruins (Happy).vgz",
+          "name": "Agra Ruins (Happy)",
+          "nameJp": "アグラ遺跡（喜）"
+        },
+        {
+          "filename": "21 Agra Ruins (Angry).vgz",
+          "name": "Agra Ruins (Angry)",
+          "nameJp": "アグラ遺跡（怒）"
+        },
+        {
+          "filename": "22 Agra Ruins (Sad).vgz",
+          "name": "Agra Ruins (Sad)",
+          "nameJp": "アグラ遺跡（哀）"
+        },
+        {
+          "filename": "23 Boss Temple.vgz",
+          "name": "Boss Temple",
+          "nameJp": "ボス神殿"
+        },
+        {
+          "filename": "24 Boss Fight.vgz",
+          "name": "Boss Fight",
+          "nameJp": "ボスファイト"
+        },
+        {
+          "filename": "25 Onwards to Next Ruins.vgz",
+          "name": "Onwards to the Next Ruins",
+          "nameJp": "次の遺跡へ"
+        },
+        {
+          "filename": "26 Ending.vgz",
+          "name": "Ending",
+          "nameJp": "エンディング"
+        },
+        {
+          "filename": "27 Player Dead.vgz",
+          "name": "Player Dead",
+          "nameJp": "プレイヤーデッド"
+        },
+        {
+          "filename": "28 Game Over.vgz",
+          "name": "Game Over",
+          "nameJp": "ゲームオーバー"
         }
       ]
     },
