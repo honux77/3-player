@@ -120,7 +120,7 @@ export function useM4APlayer() {
     audio.preload = 'auto'
 
     audio.ontimeupdate = () => {
-      setElapsed(Math.floor(audio.currentTime))
+      setElapsed(audio.currentTime)
     }
 
     audio.onloadedmetadata = () => {
@@ -149,7 +149,8 @@ export function useM4APlayer() {
 
     const game = selectedGameRef.current
     setTrackInfo({
-      title: track.nameJp || track.name,
+      title: track.name,
+      titleJp: track.nameJp && track.nameJp !== track.name ? track.nameJp : null,
       game: game?.title || '',
       system: game?.system || '',
       author: game?.author || '',
@@ -165,6 +166,13 @@ export function useM4APlayer() {
       setIsPlaying(false)
     })
   }, [trackList, currentTrackIndex])
+
+  const seek = useCallback((time) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = time
+      setElapsed(Math.floor(time))
+    }
+  }, [])
 
   const pause = useCallback(() => {
     if (audioRef.current) {
@@ -280,6 +288,7 @@ export function useM4APlayer() {
     togglePlayback,
     nextTrack,
     prevTrack,
+    seek,
     resumeAudio
   }
 }

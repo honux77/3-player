@@ -23,9 +23,11 @@ export function Player({
   onPrev,
   onStop,
   onSelectTrack,
+  onSeek,
   frequencyData
 }) {
   const remaining = Math.max(0, duration - elapsed)
+  const progress = duration > 0 ? (elapsed / duration) * 100 : 0
   const canvasRef = useRef(null)
   const overlayCanvasRef = useRef(null)
   const [isImageExpanded, setIsImageExpanded] = useState(false)
@@ -93,6 +95,7 @@ export function Player({
             {trackInfo && (
               <div className="overlay-track-info">
                 <div className="overlay-title">{trackInfo.title}</div>
+                {trackInfo.titleJp && <div className="overlay-title-jp">{trackInfo.titleJp}</div>}
                 {trackInfo.game && <div className="overlay-game">{trackInfo.game}</div>}
                 {gameSystem && <div className="overlay-system">{gameSystem}</div>}
                 {gameAuthor && <div className="overlay-author">{gameAuthor}</div>}
@@ -127,13 +130,13 @@ export function Player({
           {trackInfo ? (
             <div className="track-info">
               <div className="track-title">{trackInfo.title}</div>
+              {trackInfo.titleJp && <div className="track-title-jp">{trackInfo.titleJp}</div>}
               {gameSystem && gameSystem !== 'Unknown' && <div className="track-system">{gameSystem}</div>}
               {gameAuthor && <div className="track-author">{gameAuthor}</div>}
               <div className="track-time">
-                <span className="time-elapsed">{formatTime(elapsed)}</span>
+                <span className="time-elapsed">{formatTime(Math.floor(elapsed))}</span>
                 <span className="time-separator"> / </span>
                 <span className="time-total">{trackInfo.length}</span>
-                <span className="time-remaining">-{formatTime(remaining)}</span>
               </div>
             </div>
           ) : (
@@ -143,6 +146,22 @@ export function Player({
           )}
         </div>
       </div>
+
+      {/* Progress Bar */}
+      {trackInfo && (
+        <div
+          className="progress-bar"
+          onClick={(e) => {
+            if (!onSeek || !duration) return
+            const rect = e.currentTarget.getBoundingClientRect()
+            const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
+            onSeek(ratio * duration)
+          }}
+        >
+          <div className="progress-fill" style={{ width: `${progress}%` }} />
+          <div className="progress-handle" style={{ left: `${progress}%` }} />
+        </div>
+      )}
 
       {/* Controls */}
       <div className="controls">
