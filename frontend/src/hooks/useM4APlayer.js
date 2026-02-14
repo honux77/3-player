@@ -9,10 +9,14 @@ export function useM4APlayer() {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0)
   const [frequencyData, setFrequencyData] = useState(new Array(16).fill(0))
   const [elapsed, setElapsed] = useState(0)
+  const [repeatMode, setRepeatMode] = useState('all') // 'off' | 'all' | 'one'
+  const [shuffle, setShuffle] = useState(false)
 
   const audioRef = useRef(null)
   const rafRef = useRef(null)
   const nextTrackRef = useRef(null)
+  const repeatModeRef = useRef('all')
+  const shuffleRef = useRef(false)
   const selectedGameRef = useRef(null)
   const binsRef = useRef(new Array(16).fill(0))
 
@@ -205,10 +209,41 @@ export function useM4APlayer() {
     }
   }, [isPlaying, currentTrack, pause, play])
 
+  const toggleRepeatMode = useCallback(() => {
+    setRepeatMode(prev => {
+      const next = prev === 'off' ? 'all' : prev === 'all' ? 'one' : 'off'
+      repeatModeRef.current = next
+      return next
+    })
+  }, [])
+
+  const toggleShuffle = useCallback(() => {
+    setShuffle(prev => {
+      shuffleRef.current = !prev
+      return !prev
+    })
+  }, [])
+
   const nextTrack = useCallback(() => {
+    if (repeatModeRef.current === 'one') {
+      play(currentTrackIndex)
+      return
+    }
+    if (shuffleRef.current) {
+      let randomIdx
+      do {
+        randomIdx = Math.floor(Math.random() * trackList.length)
+      } while (randomIdx === currentTrackIndex && trackList.length > 1)
+      play(randomIdx)
+      return
+    }
     const nextIdx = (currentTrackIndex + 1) % trackList.length
+    if (repeatModeRef.current === 'off' && nextIdx === 0) {
+      stop()
+      return
+    }
     play(nextIdx)
-  }, [currentTrackIndex, trackList.length, play])
+  }, [currentTrackIndex, trackList.length, play, stop])
 
   const prevTrack = useCallback(() => {
     const prevIdx = currentTrackIndex === 0 ? trackList.length - 1 : currentTrackIndex - 1
@@ -289,6 +324,10 @@ export function useM4APlayer() {
     nextTrack,
     prevTrack,
     seek,
+    repeatMode,
+    toggleRepeatMode,
+    shuffle,
+    toggleShuffle,
     resumeAudio
   }
 }

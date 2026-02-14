@@ -474,6 +474,10 @@ function App() {
               onStop={player.stop}
               onSelectTrack={handleSelectTrack}
               onSeek={player.seek}
+              repeatMode={player.repeatMode}
+              onToggleRepeat={player.toggleRepeatMode}
+              shuffle={player.shuffle}
+              onToggleShuffle={player.toggleShuffle}
               frequencyData={player.frequencyData}
             />
           </>

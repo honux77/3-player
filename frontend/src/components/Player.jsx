@@ -24,7 +24,11 @@ export function Player({
   onStop,
   onSelectTrack,
   onSeek,
-  frequencyData
+  frequencyData,
+  repeatMode,
+  onToggleRepeat,
+  shuffle,
+  onToggleShuffle
 }) {
   const remaining = Math.max(0, duration - elapsed)
   const progress = duration > 0 ? (elapsed / duration) * 100 : 0
@@ -165,6 +169,13 @@ export function Player({
 
       {/* Controls */}
       <div className="controls">
+        <button
+          className={`control-btn shuffle-btn ${shuffle ? 'active' : ''}`}
+          onClick={onToggleShuffle}
+          title="Shuffle"
+        >
+          🔀
+        </button>
         <button className="control-btn" onClick={onPrev} title="Previous (P)">
           ⏮
         </button>
@@ -173,6 +184,13 @@ export function Player({
         </button>
         <button className="control-btn" onClick={onNext} title="Next (N)">
           ⏭
+        </button>
+        <button
+          className={`control-btn repeat-btn ${repeatMode !== 'off' ? 'active' : ''}`}
+          onClick={onToggleRepeat}
+          title={`Repeat: ${repeatMode === 'one' ? 'One' : repeatMode === 'all' ? 'All' : 'Off'}`}
+        >
+          {repeatMode === 'one' ? '🔂' : repeatMode === 'all' ? '🔁' : '➡️'}
         </button>
         <button className="control-btn stop-btn" onClick={onStop} title="Stop (S)">
           ⏹
