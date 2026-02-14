@@ -9,8 +9,8 @@ import { spawn } from 'child_process'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const DIST_DIR = path.join(__dirname, '../../vgz')
-const SPC_DIR = path.join(__dirname, '../../spc')
+const DIST_DIR = path.join(__dirname, '../../music-source/vgz')
+const SPC_DIR = path.join(__dirname, '../../music-source/spc')
 const OUTPUT_DIR = path.join(__dirname, '../public/music')
 const COVERS_DIR = path.join(OUTPUT_DIR, 'covers')
 const OG_COVERS_DIR = path.join(OUTPUT_DIR, 'og-covers')
@@ -590,14 +590,14 @@ async function processSPCZipFile(zipPath, gameId) {
     try {
       const ogFileName = `${gameId}.png`
       const ogFullPath = path.join(OG_COVERS_DIR, ogFileName)
-      
+
       // Add trackCount and format to gameInfo for OG image
       const gameInfoWithMeta = {
         ...gameInfo,
         trackCount: tracks.length,
         format: 'spc'
       }
-      
+
       const { resW, resH } = await createOGImage(coverImageData, gameInfoWithMeta, ogFullPath)
       ogImagePath = `og-covers/${ogFileName}`
       console.log(`  -> Generated OG image: ${ogFileName} (cover ${resW}x${resH})`)
@@ -631,8 +631,14 @@ async function main() {
     fs.mkdirSync(OG_COVERS_DIR, { recursive: true })
   }
 
-  const files = fs.readdirSync(DIST_DIR).filter(f => f.endsWith('.zip') && !f.includes('_backup'))
-  console.log(`Found ${files.length} zip files`)
+  const targetFile = process.argv[2] // Optional single file to process
+
+  const files = fs.readdirSync(DIST_DIR).filter(f => {
+    if (!f.endsWith('.zip') || f.includes('_backup')) return false
+    if (targetFile && !f.toLowerCase().includes(targetFile.toLowerCase())) return false
+    return true
+  })
+  console.log(`Found ${files.length} zip files (Target: ${targetFile || 'All'})`)
 
   const manifest = {
     generatedAt: new Date().toISOString(),
@@ -671,8 +677,12 @@ async function main() {
 
   // Process SPC directory
   if (fs.existsSync(SPC_DIR)) {
-    const spcFiles = fs.readdirSync(SPC_DIR).filter(f => f.endsWith('.zip') && !f.includes('_backup'))
-    console.log(`\nFound ${spcFiles.length} SPC zip files`)
+    const spcFiles = fs.readdirSync(SPC_DIR).filter(f => {
+      if (!f.endsWith('.zip') || f.includes('_backup')) return false
+      if (targetFile && !f.toLowerCase().includes(targetFile.toLowerCase())) return false
+      return true
+    })
+    console.log(`\nFound ${spcFiles.length} SPC zip files (Target: ${targetFile || 'All'})`)
 
     for (const file of spcFiles) {
       console.log(`Processing SPC: ${file}...`)
