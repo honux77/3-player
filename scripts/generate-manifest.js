@@ -348,7 +348,12 @@ async function processZipFile(zipPath, gameId, force = false) {
       const audioOutputPath = path.join(OUTPUT_DIR, audioRelativePath)
       const sourceExt = lowerName.endsWith('.vgm') ? 'vgm' : 'vgz'
 
-      console.log(`  -> Converting: ${filename} -> ${audioRelativePath}`)
+      const alreadyExists = fs.existsSync(audioOutputPath)
+      if (!force && alreadyExists) {
+        console.log(`  [SKIP] ${audioRelativePath}`)
+      } else {
+        console.log(`  [CONVERT] ${filename} -> ${audioRelativePath}`)
+      }
       await convertToM4A(sourceBuffer, sourceExt, audioOutputPath, force)
 
       tracks.push({
@@ -487,7 +492,12 @@ async function processSPCZipFile(zipPath, gameId, force = false) {
       const audioRelativePath = `${audioDirName}/${audioFileName}`
       const audioOutputPath = path.join(OUTPUT_DIR, audioRelativePath)
 
-      console.log(`  -> Converting: ${filename} -> ${audioRelativePath}`)
+      const alreadyExists = fs.existsSync(audioOutputPath)
+      if (!force && alreadyExists) {
+        console.log(`  [SKIP] ${audioRelativePath}`)
+      } else {
+        console.log(`  [CONVERT] ${filename} -> ${audioRelativePath}`)
+      }
       await convertToM4A(Buffer.from(buffer), 'spc', audioOutputPath, force)
 
       tracks.push({
@@ -552,7 +562,8 @@ async function processSPCZipFile(zipPath, gameId, force = false) {
 
 async function main() {
   console.log('Scanning dist folder for zip files...')
-  const found = (process.env.PATH || '').split(path.delimiter).some(dir => fs.existsSync(path.join(dir, 'vgm2wav2')))
+  const exeNames = process.platform === 'win32' ? ['vgm2wav2.exe', 'vgm2wav2'] : ['vgm2wav2']
+  const found = (process.env.PATH || '').split(path.delimiter).some(dir => exeNames.some(exe => fs.existsSync(path.join(dir, exe))))
   if (!found) throw new Error('Required command not found: vgm2wav2')
 
   // Ensure output directories exist
@@ -577,6 +588,17 @@ async function main() {
     return true
   })
   console.log(`Found ${files.length} zip files (Target: ${targetFile || 'All'})`)
+
+  // Load existing manifest to preserve entries when targeting a specific file
+  let existingGames = []
+  if (targetFile && fs.existsSync(MANIFEST_PATH)) {
+    try {
+      existingGames = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf-8')).games || []
+      console.log(`Loaded ${existingGames.length} existing games from manifest`)
+    } catch (e) {
+      console.warn('Could not load existing manifest, starting fresh')
+    }
+  }
 
   const manifest = {
     generatedAt: new Date().toISOString(),
@@ -651,6 +673,14 @@ async function main() {
         console.error(`  Error processing ${file}:`, e.message)
       }
     }
+  }
+
+  // Merge with existing games (keep entries not processed in this run)
+  if (existingGames.length > 0) {
+    const processedIds = new Set(manifest.games.map(g => g.id))
+    const preserved = existingGames.filter(g => !processedIds.has(g.id))
+    manifest.games = [...manifest.games, ...preserved]
+    console.log(`Preserved ${preserved.length} existing game entries`)
   }
 
   // Write manifest
